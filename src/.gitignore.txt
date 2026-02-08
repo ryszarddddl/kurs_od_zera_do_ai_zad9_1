@@ -1,0 +1,34 @@
+# --- TAJNE DANE (NIGDY NIE USUWAJ TYCH LINII) ---
+.env
+.env.local
+.env.*
+secrets.toml
+
+# --- PLIKI TYMCZASOWE PYTHONA ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- ŚRODOWISKO WIRTUALNE (ZA DUŻE NA GITHUB) ---
+venv/
+.venv/
+env/
+bin/
+lib/
+develop-eggs/
+dist/
+build/
+
+# --- PLIKI TYMCZASOWE SYSTEMU I EDYTORA ---
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# --- LOKALNE DANE I MODELE (Pobierasz je przecież z DigitalOcean Spaces) ---
+*.csv
+*.pkl
+*.joblib
+temp_*/
