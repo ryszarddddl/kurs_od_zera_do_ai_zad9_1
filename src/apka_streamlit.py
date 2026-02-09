@@ -510,7 +510,7 @@ if st.session_state.data_df is None:
                 st.session_state.data_df = pd.read_csv(buff, sep=';', encoding='utf-8-sig')
                 st.success(f"Pomyślnie wczytano: {wybrany_plik_ocean}")
                 st.dataframe(st.session_state.data_df.head())
-            if st.button("OK",, key="btn_ok_3"):
+            if st.button("OK", key="btn_ok_3"):
                 st.rerun()
     else:
         st.warning("⚠️ W folderze digital ocean nie znaleziono żadnych plików CSV.") 
@@ -803,5 +803,6 @@ else:
                             send_feedback(final_score, comment, lf_public, lf_secret, lf_host)
                         else:
                             st.warning("Zaznacz gwiazdki przed wysłaniem!")
+
 
 
