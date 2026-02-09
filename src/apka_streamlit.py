@@ -491,11 +491,11 @@ if st.session_state.data_df is None:
             st.session_state.data_df = pd.read_csv(current_dir / wybrany_plik, sep=';', encoding='utf-8-sig', on_bad_lines='skip')
             st.success(f"Pomyślnie wczytano: {wybrany_plik}")
             st.dataframe(st.session_state.data_df.head())
-            if st.button("OK"):
+            if st.button("OK", key="btn_ok_1"):
                 st.rerun()
     else:
         st.warning("⚠️ W folderze aplikacji nie znaleziono żadnych plików CSV.") 
-        if st.button("OK"):
+        if st.button("OK", key="btn_ok_2"):
             st.rerun()
     
     csv_digi_ocean = list_do_files_by_extension(st.session_state.do_access_key, st.session_state.do_secret_key, st.session_state.do_space_input,'csv',st.session_state.do_region, st.session_state.do_end_url)
@@ -510,11 +510,11 @@ if st.session_state.data_df is None:
                 st.session_state.data_df = pd.read_csv(buff, sep=';', encoding='utf-8-sig')
                 st.success(f"Pomyślnie wczytano: {wybrany_plik_ocean}")
                 st.dataframe(st.session_state.data_df.head())
-            if st.button("OK"):
+            if st.button("OK",, key="btn_ok_3"):
                 st.rerun()
     else:
         st.warning("⚠️ W folderze digital ocean nie znaleziono żadnych plików CSV.") 
-        if st.button("OK"):
+        if st.button("OK", key="btn_ok_4"):
             st.rerun()
     
 else:
@@ -532,7 +532,7 @@ else:
             target_path = str(current_dir / model_name)
             st.session_state.d_model = get_model(target_path)
             st.success(f"Pomyślnie wczytano: {wybrany_plik}")
-            if st.button("OK"):
+            if st.button("OK", key="btn_ok_5"):
                 st.rerun()
         
         pkl_digi_ocean = list_do_files_by_extension(st.session_state.do_access_key, st.session_state.do_secret_key, st.session_state.do_space_input,'pkl',st.session_state.do_region, st.session_state.do_end_url)
@@ -546,7 +546,7 @@ else:
                 if buff:
                     st.session_state.d_model = joblib.load(buff)
                     st.success(f"Pomyślnie wczytano: {wybrany_plik_ocean}")
-                    if st.button("OK"):
+                    if st.button("OK", key="btn_ok_6"):
                         st.rerun()
 
     else:
@@ -565,7 +565,7 @@ else:
                 if st.button("Wczytaj dane"):
                     st.session_state.json_cluster_names_and_descriptions = get_cluster_names_and_descriptions(current_dir / wybrany_plik,st.session_state.lf_public,st.session_state.lf_secret,st.session_state.lf_host)
                     st.success(f"Pomyślnie wczytano: {wybrany_plik}")
-                    if st.button("OK"):
+                    if st.button("OK", key="btn_ok_7"):
                         st.rerun()
                 
                 json_digi_ocean = list_do_files_by_extension(st.session_state.do_access_key, st.session_state.do_secret_key, st.session_state.do_space_input,'json',st.session_state.do_region, st.session_state.do_end_url)
@@ -579,11 +579,11 @@ else:
                         if buff:
                             st.session_state.json_cluster_names_and_descriptions = json.load(buff)
                             st.success(f"Pomyślnie wczytano: {wybrany_plik_ocean}")
-                        if st.button("OK"):
+                        if st.button("OK", key="btn_ok_8"):
                             st.rerun()
                 else:
                     st.warning("⚠️ W folderze digital ocean nie znaleziono żadnych plików JSON.") 
-                    if st.button("OK"):
+                    if st.button("OK", key="btn_ok_9"):
                         st.rerun()
 
                 with st.form("Wygeneruj opisy dla modelu treningowego"):
@@ -597,7 +597,7 @@ else:
                             
                     
                     upload_file_to_digital_ocean(CLUSTER_NAMES_AND_DESCRIPTIONS,st.session_state.do_access_key, st.session_state.do_secret_key, st.session_state.do_space_input,None,st.session_state.do_region, st.session_state.do_end_url)
-                if st.button("OK"):
+                if st.button("OK", key="btn_ok_10"):
                     st.rerun()
             else:               
                 # Tworzymy sidebar
