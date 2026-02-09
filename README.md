@@ -3,6 +3,7 @@
 Aplikacja AI wykorzystująca uczenie maszynowe (PyCaret) i LLM (OpenAI) do przewidywania wyników sportowych.
 
 🚀 **Aplikacja dostępna pod adresem:** (https://sea-lion-app-zhhg9.ondigitalocean.app/)
+Notebook z trenowania modelu znajduje się w folderze notebook
 
 ### Opis Projektu
 Zaimplementowałem aplikację szacującą czas ukończenia półmaratonu...
