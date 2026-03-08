@@ -4,8 +4,13 @@ import os
 import io
 from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv() # To wczyta zmienne środowiskowe na serwerze
-current_dir = Path(__file__).resolve().parent
+# Ścieżka do podkatalogu data
+data_dir = PROJECT_ROOT / "data"
+
+# Jeśli chcesz stworzyć ten folder, gdyby nie istniał:
+data_dir.mkdir(exist_ok=True)
 
 import langfuse  # DODAJ TĘ LINIĘ
 from langfuse.openai import OpenAI as LangfuseOpenAI
@@ -393,7 +398,8 @@ def make_descriptions(_data_model,new_data,FILE_CLUSTER_NAMES_AND_DESCRIPTIONS,a
     
     result = response.choices[0].message.content.replace("```json", "").replace("```", "").strip()
     cluster_names_and_descriptions = json.loads(result)
-    with open(FILE_CLUSTER_NAMES_AND_DESCRIPTIONS, "w") as f:
+    CATALOG_FILE_CLUSTER_NAMES_AND_DESCRIPTIONS = data_dir / FILE_CLUSTER_NAMES_AND_DESCRIPTIONS
+    with open(CATALOG_FILE_CLUSTER_NAMES_AND_DESCRIPTIONS, "w") as f:
         f.write(json.dumps(cluster_names_and_descriptions))
     
 def get_cluster_names_and_descriptions(file_path, lf_public, lf_secret, lf_host):
@@ -481,14 +487,14 @@ if any(key not in st.session_state for key in required_keys):
 if 'data_df' not in st.session_state:
     st.session_state.data_df = None
 if st.session_state.data_df is None:
-    lista_csv = [f.name for f in current_dir.glob("*.csv")]
+    lista_csv = [f.name for f in data_dir.glob("*.csv")]
     if lista_csv:
         # 2. Wyświetlamy rozwijaną listę (selectbox)
         wybrany_plik = st.selectbox("Wybierz plik danych do analizy z dysku lokalnego:", lista_csv,index=len(lista_csv) - 1)
     
         # 3. Akcja po wyborze (np. wczytanie ramki danych)
         if st.button("Wczytaj dane z dysku lokalnego"):
-            st.session_state.data_df = pd.read_csv(current_dir / wybrany_plik, sep=';', encoding='utf-8-sig', on_bad_lines='skip')
+            st.session_state.data_df = pd.read_csv(data_dir/ wybrany_plik, sep=';', encoding='utf-8-sig', on_bad_lines='skip')
             st.success(f"Pomyślnie wczytano: {wybrany_plik}")
             st.dataframe(st.session_state.data_df.head())
             if st.button("OK", key="btn_ok_1"):
@@ -521,7 +527,7 @@ else:
     if 'd_model' not in st.session_state:
         st.session_state.d_model = None
     if st.session_state.d_model is None:
-        lista_pkl = [f.name for f in current_dir.glob("*.pkl")]
+        lista_pkl = [f.name for f in data_dir.glob("*.pkl")]
         #if lista_pkl:
         # 2. Wyświetlamy rozwijaną listę (selectbox)
         wybrany_plik = st.selectbox("Wybierz plik modelu treningowego z dysku lokalnego:", lista_pkl,index=len(lista_pkl) - 1)
@@ -529,7 +535,7 @@ else:
         if st.button("Wczytaj dane"):
             wybrany_plik = wybrany_plik.replace('.pkl', '')
             model_name = Path(wybrany_plik).stem
-            target_path = str(current_dir / model_name)
+            target_path = str(data_dir / model_name)
             st.session_state.d_model = get_model(target_path)
             st.success(f"Pomyślnie wczytano: {wybrany_plik}")
             if st.button("OK", key="btn_ok_5"):
@@ -559,11 +565,11 @@ else:
                 st.session_state.json_cluster_names_and_descriptions = None
             if st.session_state.json_cluster_names_and_descriptions is None:
             
-                lista_json = [f.name for f in current_dir.glob("*.json")]
+                lista_json = [f.name for f in data_dir.glob("*.json")]
                 wybrany_plik = st.selectbox("Wybierz plik opisu grup modelu treningowego z dysku lokalnego:", lista_json,index=len(lista_json) - 1)
             
                 if st.button("Wczytaj dane"):
-                    st.session_state.json_cluster_names_and_descriptions = get_cluster_names_and_descriptions(current_dir / wybrany_plik,st.session_state.lf_public,st.session_state.lf_secret,st.session_state.lf_host)
+                    st.session_state.json_cluster_names_and_descriptions = get_cluster_names_and_descriptions(data_dir / wybrany_plik,st.session_state.lf_public,st.session_state.lf_secret,st.session_state.lf_host)
                     st.success(f"Pomyślnie wczytano: {wybrany_plik}")
                     if st.button("OK", key="btn_ok_7"):
                         st.rerun()
@@ -803,6 +809,5 @@ else:
                             send_feedback(final_score, comment, lf_public, lf_secret, lf_host)
                         else:
                             st.warning("Zaznacz gwiazdki przed wysłaniem!")
-
 
 
