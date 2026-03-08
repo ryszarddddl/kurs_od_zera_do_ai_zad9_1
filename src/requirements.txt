@@ -1,7 +1,0 @@
-streamlit>=1.38.0
-python-dotenv
-langfuse
-openai
-pycaret
-boto3
-scikit-learn
