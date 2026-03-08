@@ -29,8 +29,9 @@ Zaimplementuj aplikację szacującą czas ukończenia półmaratonu dla zadanych
     * tę część podepnij do Langfuse, aby zbierać metryki o skuteczności działania LLM'a
   
 4. Instalacja
-   - za pomocą dockera:
-     docker build -t przewidywanie_plac estymator_maratonu .
-   -manualna.
+   * za pomocą dockera:
+     docker build -t estymator_maratonu .
+
+   * manualna:
      Aby zainstalować aplikację bez dockera należy uruchomić konsolę (w przypadku windowsa cmd, linuxa bash) i wpisać:
      pip install --upgrade pip pip install -r requirements.txt
